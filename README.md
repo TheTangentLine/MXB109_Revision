@@ -33,18 +33,18 @@ This README is the **whole unit compressed into one file**. Each section links t
 
 | File | Topic | Lecture | Must-know for exam |
 |---|---|---|---|
-| [00_START_HERE.md](00_START_HERE.md) | Map, cue words, resource sheet | Wk 13 revision | ✅ |
-| [01_Formulation_and_Standard_Form.md](01_Formulation_and_Standard_Form.md) | Formulating, standard form, slack/excess/artificial | Wks 1–2 | ✅ |
-| [02_Graphical_Method.md](02_Graphical_Method.md) | Feasible region, isoprofit, corner theorem, coefficient range | Wk 3 | ✅ |
-| [03_Simplex_Method.md](03_Simplex_Method.md) | Basic/non-basic, tableau, ratio test, pivot | Wks 5–6 | ✅✅ |
-| [04_BigM_and_Special_Cases.md](04_BigM_and_Special_Cases.md) | Big M, infeasible / unbounded / multiple optima | Wk 7 | ✅✅ |
-| [05_Sensitivity_Shadow_Price_Reduced_Cost.md](05_Sensitivity_Shadow_Price_Reduced_Cost.md) | Shadow price, reduced cost, ranges, Solver report | Wk 8 | ✅✅✅ |
-| [06_Duality.md](06_Duality.md) | Dual, weak/strong duality, complementary slackness | Wk 9 | ✅✅ |
-| [07_Transportation.md](07_Transportation.md) | NW corner, u/v, reduced costs, loops | Wk 11 | ✅✅ |
-| [08_Game_Theory.md](08_Game_Theory.md) | Dominance, saddle point, mixed LP | Wk 12 | ✅✅ |
-| [09_Networks.md](09_Networks.md) | Shortest path, MST | Wk 13 | ✅ |
+| [00_START_HERE.md](notes/00_START_HERE.md) | Map, cue words, resource sheet | Wk 13 revision | ✅ |
+| [01_Formulation_and_Standard_Form.md](notes/01_Formulation_and_Standard_Form.md) | Formulating, standard form, slack/excess/artificial | Wks 1–2 | ✅ |
+| [02_Graphical_Method.md](notes/02_Graphical_Method.md) | Feasible region, isoprofit, corner theorem, coefficient range | Wk 3 | ✅ |
+| [03_Simplex_Method.md](notes/03_Simplex_Method.md) | Basic/non-basic, tableau, ratio test, pivot | Wks 5–6 | ✅✅ |
+| [04_BigM_and_Special_Cases.md](notes/04_BigM_and_Special_Cases.md) | Big M, infeasible / unbounded / multiple optima | Wk 7 | ✅✅ |
+| [05_Sensitivity_Shadow_Price_Reduced_Cost.md](notes/05_Sensitivity_Shadow_Price_Reduced_Cost.md) | Shadow price, reduced cost, ranges, Solver report | Wk 8 | ✅✅✅ |
+| [06_Duality.md](notes/06_Duality.md) | Dual, weak/strong duality, complementary slackness | Wk 9 | ✅✅ |
+| [07_Transportation.md](notes/07_Transportation.md) | NW corner, u/v, reduced costs, loops | Wk 11 | ✅✅ |
+| [08_Game_Theory.md](notes/08_Game_Theory.md) | Dominance, saddle point, mixed LP | Wk 12 | ✅✅ |
+| [09_Networks.md](notes/09_Networks.md) | Shortest path, MST | Wk 13 | ✅ |
 
-**Viewing:** in VS Code press `Cmd+Shift+V`. Diagrams are PNGs in [`img/`](img/). Flowcharts are Mermaid and need the extension **"Markdown Preview Mermaid Support"** (GitHub and Obsidian render them automatically).
+**Viewing:** in VS Code press `Cmd+Shift+V`. Diagrams are PNGs in [`notes/img/`](notes/img/). Flowcharts are Mermaid and need the extension **"Markdown Preview Mermaid Support"** (GitHub and Obsidian render them automatically).
 
 ---
 
@@ -98,7 +98,7 @@ flowchart TD
 
 ## 2. Formulation and standard form
 
-→ Details: [01_Formulation_and_Standard_Form.md](01_Formulation_and_Standard_Form.md)
+→ Details: [01_Formulation_and_Standard_Form.md](notes/01_Formulation_and_Standard_Form.md)
 
 **Five-step translation:** (1) list measurable quantities with units, (2) split into *chosen* (decision variables) vs *follows* (objective and constraints), (3) objective as a sentence, (4) each constraint as "used ≤ available" or "provided ≥ required", (5) swap in symbols, then **check the units on both sides**.
 
@@ -127,7 +127,7 @@ Optimum: P = 2.8, B = 3, z = $370   (labour and contract binding)
 | `≥` | **− e** (excess / surplus) **+ a** | amount **over** the requirement | binding: requirement costs you | non-binding: shadow price **0** |
 | `=` | **+ a** | nothing real | (must be 0) | **infeasible** if a > 0 at the end |
 
-![Slack and excess](img/slack_excess.png)
+![Slack and excess](notes/img/slack_excess.png)
 
 > **Geometry:** slack/excess = 0 ⇔ the point lies **on** that constraint's line.
 > **Slack and excess are real quantities you report. Artificials are scaffolding for the method only.**
@@ -136,14 +136,14 @@ Optimum: P = 2.8, B = 3, z = $370   (labour and contract binding)
 
 ## 4. Graphical method
 
-→ Details: [02_Graphical_Method.md](02_Graphical_Method.md)
+→ Details: [02_Graphical_Method.md](notes/02_Graphical_Method.md)
 
 1. Plot each constraint line, shade the allowed side; the overlap is the **feasible region**.
 2. Draw an **isoprofit line** c₁x₁ + c₂x₂ = z and **slide it parallel** in the improving direction.
 3. The last point touched is a **corner**. Solve its two binding lines simultaneously.
    (Or: list all feasible corners, evaluate z at each, pick the best.)
 
-![Graphical method](img/graphical_method.png)
+![Graphical method](notes/img/graphical_method.png)
 
 **Fundamental theorem:** the optimum is always at a **corner**. If the objective is parallel to an edge, the whole edge is optimal.
 
@@ -154,7 +154,7 @@ Biofuel: −2 ≤ −c₁/2 ≤ −1 ⇒ **2 ≤ c₁ ≤ 4**. Inside the range,
 
 ## 5. Simplex method
 
-→ Details: [03_Simplex_Method.md](03_Simplex_Method.md)
+→ Details: [03_Simplex_Method.md](notes/03_Simplex_Method.md)
 
 * **Corner = basic feasible solution.** n variables, m equations: set **n − m** variables to 0 (**non-basic**) and solve for the m **basic** ones.
 * Neighbouring corners differ by **one swap** (enter / leave).
@@ -167,7 +167,7 @@ Biofuel: −2 ≤ −c₁/2 ≤ −1 ⇒ **2 ≤ c₁ ≤ 4**. Inside the range,
 | Pivot | make the pivot 1, clear the rest of the column (z row included) |
 | Stop | **no negatives** in the z row |
 
-![Simplex path](img/simplex_path.png)
+![Simplex path](notes/img/simplex_path.png)
 
 **Co-op final tableau** (max 3b + 2a, b + a ≤ 8, 3b + a ≤ 12):
 
@@ -183,7 +183,7 @@ Biofuel: −2 ≤ −c₁/2 ≤ −1 ⇒ **2 ≤ c₁ ≤ 4**. Inside the range,
 
 ## 6. Big M and the special cases
 
-→ Details: [04_BigM_and_Special_Cases.md](04_BigM_and_Special_Cases.md)
+→ Details: [04_BigM_and_Special_Cases.md](notes/04_BigM_and_Special_Cases.md)
 
 **Big M procedure:**
 1. Substitute the origin. Every constraint it violates gets an artificial.
@@ -191,7 +191,7 @@ Biofuel: −2 ≤ −c₁/2 ≤ −1 ⇒ **2 ≤ c₁ ≤ 4**. Inside the range,
 3. ⚠️ **Clear the M's from the z row** (Rz − M × each artificial row) **before** looking for negatives.
 4. Run simplex. Compare M-expressions by their M coefficient first.
 
-![Big M path](img/bigm_path.png)
+![Big M path](notes/img/bigm_path.png)
 
 | Situation | **Tell in the tableau** | Report |
 |---|---|---|
@@ -200,13 +200,13 @@ Biofuel: −2 ≤ −c₁/2 ≤ −1 ⇒ **2 ≤ c₁ ≤ 4**. Inside the range,
 | Alternative optima | **0 under a non-basic** variable at the optimum | pivot it in; the whole edge between the corners is optimal |
 | Normal | none of the above | read off the RHS |
 
-![Special cases](img/special_cases.png)
+![Special cases](notes/img/special_cases.png)
 
 ---
 
 ## 7. Sensitivity: shadow prices and reduced costs
 
-→ **Full visual explanation:** [05_Sensitivity_Shadow_Price_Reduced_Cost.md](05_Sensitivity_Shadow_Price_Reduced_Cost.md)
+→ **Full visual explanation:** [05_Sensitivity_Shadow_Price_Reduced_Cost.md](notes/05_Sensitivity_Shadow_Price_Reduced_Cost.md)
 
 > At the optimum, the z-row entry under a non-basic variable = **how much z falls if that variable is pushed up by 1**.
 
@@ -222,18 +222,18 @@ Biofuel: −2 ≤ −c₁/2 ≤ −1 ⇒ **2 ≤ c₁ ≤ 4**. Inside the range,
 
 ### Binding vs non-binding
 
-![Binding vs non-binding](img/shadow_binding_vs_nonbinding.png)
+![Binding vs non-binding](notes/img/shadow_binding_vs_nonbinding.png)
 
 ### A shadow price is a slope, valid over a range
 
-![Shadow price range](img/shadow_price_range.png)
+![Shadow price range](notes/img/shadow_price_range.png)
 
 Bakery: oven-slot shadow price **$3**, valid for **8 ≤ oven-slots ≤ 16** (same constraints binding). Inside the range: new z = old z + Δ × shadow price. Outside it, you must re-solve.
 Range from the tableau: new RHS = old RHS + Δ × (slack column); every basic value must stay ≥ 0.
 
 ### ≥ requirements have negative shadow prices (max problems)
 
-![Excess shadow price](img/shadow_price_excess.png)
+![Excess shadow price](notes/img/shadow_price_excess.png)
 
 | Problem | Binding constraint | Shadow price sign |
 |---|---|---|
@@ -245,7 +245,7 @@ Range from the tableau: new RHS = old RHS + Δ × (slack column); every basic va
 
 ### Reduced cost
 
-![Reduced cost](img/reduced_cost.png)
+![Reduced cost](notes/img/reduced_cost.png)
 
 **Reduced cost of xⱼ = (resources one unit uses × shadow prices) − (its profit).**
 Water works: advanced batch = 1 tank-day × 4 + 3 chem × 0 − 3 = **1**.
@@ -261,7 +261,7 @@ Water works: advanced batch = 1 tank-day × 4 + 3 chem × 0 − 3 = **1**.
 
 ## 8. Duality
 
-→ Details: [06_Duality.md](06_Duality.md)
+→ Details: [06_Duality.md](notes/06_Duality.md)
 
 **The dual is the problem of finding the tightest upper bound on the primal.**
 
@@ -282,7 +282,7 @@ optimum (2, 6), z = 34                optimum (2, 1), w = 34
 | objective c | RHS |
 | columns of A | rows of the dual |
 
-![Duality bounds](img/duality_bounds.png)
+![Duality bounds](notes/img/duality_bounds.png)
 
 * **Weak duality:** any primal-feasible z ≤ any dual-feasible w.
 * **Strong duality:** z* = w*. Equal values certify that both are optimal.
@@ -294,7 +294,7 @@ optimum (2, 6), z = 34                optimum (2, 1), w = 34
 
 ## 9. Transportation problems
 
-→ Details: [07_Transportation.md](07_Transportation.md)
+→ Details: [07_Transportation.md](notes/07_Transportation.md)
 
 1. **Balance**: if supply ≠ demand, add a dummy row or column at cost 0.
 2. **NW corner**: fill from the top-left, min(supply left, demand left). Gives **m + n − 1** occupied cells.
@@ -302,7 +302,7 @@ optimum (2, 6), z = 34                optimum (2, 1), w = 34
 4. **Reduced costs**: c̄ᵢⱼ = cᵢⱼ − uᵢ − vⱼ on each **empty** cell. All ≥ 0 means **optimal** (a 0 means alternative optima).
 5. **Improve**: the most negative c̄ enters. Trace the **+ − + − loop** through occupied cells. θ = smallest − cell; that cell leaves. New cost = old + θ × c̄.
 
-![Transportation loop](img/transport_loop.png)
+![Transportation loop](notes/img/transport_loop.png)
 
 Powerco: 1180 (NW) → 1120 → 1070 → **1020** (optimal).
 
@@ -310,7 +310,7 @@ Powerco: 1180 (NW) → 1120 → 1070 → **1020** (optimal).
 
 ## 10. Game theory
 
-→ Details: [08_Game_Theory.md](08_Game_Theory.md)
+→ Details: [08_Game_Theory.md](notes/08_Game_Theory.md)
 
 1. **Dominance**: delete a row that's ≤ another row everywhere. Delete a column that's ≥ another column everywhere (the column player wants small numbers).
 2. **Saddle point test**: maximin (max of row minima) vs minimax (min of column maxima). If they're **equal**, that's a pure strategy and the value of the game.
@@ -322,7 +322,7 @@ s.t. Σᵢ aᵢⱼ xᵢ ≥ v    for every column j of the opponent
      Σ xᵢ = 1,  xᵢ ≥ 0
 ```
 
-![Mixed strategy](img/game_mixed.png)
+![Mixed strategy](notes/img/game_mixed.png)
 
 2×2 shortcut: set the two column expressions equal. Cafe game: x = (5/8, 3/8), **v = 3.5**.
 The row and column players' LPs are **duals**, so v = w = the value of the game.
@@ -331,9 +331,9 @@ The row and column players' LPs are **duals**, so v = w = the value of the game.
 
 ## 11. Networks
 
-→ Details: [09_Networks.md](09_Networks.md)
+→ Details: [09_Networks.md](notes/09_Networks.md)
 
-![Networks](img/networks.png)
+![Networks](notes/img/networks.png)
 
 | | **Shortest path** | **Minimum spanning tree** |
 |---|---|---|
