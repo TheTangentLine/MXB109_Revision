@@ -44,6 +44,13 @@ This README is the **whole unit compressed into one file**. Each section links t
 | [08_Game_Theory.md](notes/08_Game_Theory.md) | Dominance, saddle point, mixed LP | Wk 12 | ✅✅ |
 | [09_Networks.md](notes/09_Networks.md) | Shortest path, MST | Wk 13 | ✅ |
 
+**Practice exams** (60 marks each, 2 hours, every topic, in the style of the PST and revision pracs):
+
+| Exam | Paper | Solutions |
+|---|---|---|
+| 1 | [Practice_Exam_1.md](practice_exams/Practice_Exam_1.md) | [Practice_Exam_1_Solutions.md](practice_exams/Practice_Exam_1_Solutions.md) |
+| 2 | [Practice_Exam_2.md](practice_exams/Practice_Exam_2.md) | [Practice_Exam_2_Solutions.md](practice_exams/Practice_Exam_2_Solutions.md) |
+
 **Viewing:** in VS Code press `Cmd+Shift+V`. Diagrams are PNGs in [`notes/img/`](notes/img/). Flowcharts are Mermaid and need the extension **"Markdown Preview Mermaid Support"** (GitHub and Obsidian render them automatically).
 
 ---
@@ -425,6 +432,8 @@ LP underneath: **conservation of flow** (flow out − flow in = +1 at the source
 | 5 | Note 06. Write duals for 3 problems; verify strong duality | Wk 9 prac, revision Q2, Q10 |
 | 6 | Notes 07–09 | Revision prac 2 (all) |
 | 7 | **Mixed practice:** take random questions and name the family before solving | PST questions, both revision pracs |
+| 8 | **Timed:** Practice Exam 1 (2 h), then mark it with the solutions | [practice_exams/](practice_exams/) |
+| 9 | Revisit weak topics, then Practice Exam 2 (2 h) | [practice_exams/](practice_exams/) |
 
 > *"You came in able to solve equations. You leave able to model a decision."* (week 13 revision lecture)
 >
