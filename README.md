@@ -55,6 +55,7 @@ Every note follows the same pattern: **the big idea → a worked example step by
 |---|---|---|
 | 1 | [Practice_Exam_1.md](practice_exams/Practice_Exam_1.md) | [Practice_Exam_1_Solutions.md](practice_exams/Practice_Exam_1_Solutions.md) |
 | 2 | [Practice_Exam_2.md](practice_exams/Practice_Exam_2.md) | [Practice_Exam_2_Solutions.md](practice_exams/Practice_Exam_2_Solutions.md) |
+| 3 | [Practice_Exam_3.md](practice_exams/Practice_Exam_3.md) | [Practice_Exam_3_Solutions.md](practice_exams/Practice_Exam_3_Solutions.md) |
 
 **Viewing:** in VS Code press `Cmd+Shift+V`. The pictures are in [`notes/img/`](notes/img/).
 
