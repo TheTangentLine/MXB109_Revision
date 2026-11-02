@@ -1,40 +1,49 @@
-# 5. Sensitivity Analysis: Shadow Prices, Reduced Costs and Ranges (with pictures)
+# 5. Sensitivity: Shadow Prices, Reduced Costs and Ranges
 
-> **The whole topic in two sentences:**
-> At the optimum, every number in the **bottom (z) row** says how much z would change if you pushed that variable up by one unit.
-> Under a **slack/excess** it's called a **shadow price** (the value of one more unit of a *resource*). Under a **decision variable** it's called a **reduced cost** (the penalty for making one unit of a *product you aren't making*).
-
-## 5.0 Map of the topic
-
-```mermaid
-flowchart TD
-    T[Final optimal tableau: z row] --> B[Entry under a BASIC variable<br/>always 0: already in the plan]
-    T --> N[Entry under a NON-BASIC variable]
-    N --> S[non-basic SLACK sᵢ / EXCESS eᵢ]
-    N --> X[non-basic DECISION variable xⱼ<br/>a product you're not making]
-    S --> SP[SHADOW PRICE of constraint i<br/>Δz per +1 unit of RHS<br/>≤ : read directly<br/>≥ : flip the sign for a max]
-    X --> RC[REDUCED COST of xⱼ<br/>z drops by this much per unit forced in<br/>= how much its profit must rise to be worth making]
-    SP --> R[Holds only over a RANGE<br/>while the same basis stays optimal]
-    B --> Z0[A basic slack means a non-binding constraint<br/>→ shadow price = 0]
-```
-
-**Formula-sheet definition** (use this whenever in doubt; re-solving always works):
-
-> **Shadow price = (new optimal z) − (old optimal z) when that constraint's RHS is increased by 1.**
+> **In one sentence:** once you have the best plan, the numbers in the final z row answer the manager's "what if" questions: what is one more unit of a resource worth (**shadow price**), and why aren't we making product X (**reduced cost**)?
 
 ---
 
-## 5.1 Shadow price of a binding vs a non-binding constraint
+## 5.1 The big idea
 
-**Water treatment works (week 8 lecture)**
+You've found the best plan. Now the manager asks:
+
+* "If I could get **one more** hour of labour, how much more profit would I make?" → **shadow price**
+* "Why aren't we making the advanced product? How much better would it need to be?" → **reduced cost**
+* "Over what range does that answer stay true?" → **range**
+
+You don't need to re-solve the problem. **The final z row already holds these answers.**
+
+> **Every number in the final z row says how much z would drop if you forced that variable up by 1.**
+
+| z-row number under… | What it's called | Plain meaning |
+|---|---|---|
+| a variable in the Basis column | – | always 0 |
+| a **slack** (not in the basis) | **shadow price** | what one more unit of that resource is worth |
+| an **excess** (not in the basis) | shadow price, **with the sign flipped** (for a max) | what one more unit of that requirement costs you |
+| a **decision variable** (not in the basis) | **reduced cost** | how much z drops per unit if you force that product in |
+| a slack that **is** in the basis | shadow price = **0** | there's some of that resource left over, so more is worth nothing |
+
+The rest of this note explains each row of this table with an example.
+
+**If you're ever unsure, use the resource-sheet definition. It always works:**
+> **Shadow price = (new best z) − (old best z) when that constraint's RHS goes up by 1.**
+
+---
+
+## 5.2 Shadow price: what is one more unit worth?
+
+### Water treatment works (week 8 lecture)
 
 ```
-max z = 4x₁ + 3x₂          (ML of water; x₁ = standard batches, x₂ = advanced)
-s.t.  x₁ +  x₂ ≤ 8     tank-days
-      x₁ + 3x₂ ≤ 12    chemical units
+x₁ = standard batches, x₂ = advanced batches, z = ML of clean water
+
+max z = 4x₁ + 3x₂
+s.t.  x₁ +  x₂ ≤ 8      tank-days
+      x₁ + 3x₂ ≤ 12     chemical units
 ```
 
-Final tableau:
+Final table:
 
 | Basis | x₁ | x₂ | s₁ | s₂ | RHS |
 |---|---|---|---|---|---|
@@ -42,37 +51,51 @@ Final tableau:
 | s₂ | 0 | 2 | −1 | 1 | 4 |
 | z | 0 | **1** | **4** | **0** | 32 |
 
-* s₁ is **non-basic** (= 0): tank-days are used up, so tank-days are **binding**. The entry **4** is the **shadow price**.
-* s₂ is **basic** (= 4): 4 chemical units are left over, so chemicals are **non-binding**. The entry **0** is the shadow price.
-* x₂ is non-basic: we make no advanced batches. The entry **1** is the **reduced cost** (section 5.5).
+**Reading it:** the plan is x₁ = 8 standard batches, x₂ = 0, giving 32 ML.
+* **s₁ is not in the basis** (= 0): every tank-day is used, so tank-days are **binding**. The **4** under s₁ is the shadow price: **one more tank-day is worth 4 ML**.
+* **s₂ is in the basis** (= 4): 4 chemical units are left over, so chemicals are **non-binding**. Shadow price **0**: more chemicals would just sit unused.
+* **x₂ is not in the basis:** we make no advanced batches. The **1** under it is its **reduced cost** (section 5.6).
+
+### Why 4? Think it through
+
+Every tank-day is in use, and each one runs a standard batch that makes 4 ML. One extra tank-day → one more standard batch → **+4 ML**. The table says exactly that.
 
 ### See it
 
 ![Binding vs non-binding shadow price](img/shadow_binding_vs_nonbinding.png)
 
-* **Left (binding):** push the tank-days line out by 1. The region grows **right where the optimum is**, so the optimal corner slides from (8, 0) to (9, 0) and z goes 32 → **36**. **+4 per tank-day.**
-* **Right (non-binding):** push the chemicals line out by 1. The region grows **somewhere the optimum never goes**, so the optimum stays at (8, 0) and z stays 32. **+0.**
+* **Left (tank-days, binding):** push the tank-days line out by 1. The region grows **right where the best corner is**, so the corner slides from (8, 0) to (9, 0) and z goes from 32 to **36**. **+4.**
+* **Right (chemicals, non-binding):** push the chemicals line out by 1. The region grows in a place the best plan never goes. The best plan stays at (8, 0) and z stays 32. **+0.**
 
-> **Rule:** slack > 0 ⇒ shadow price = 0. Only **binding** constraints can have non-zero shadow prices.
-> (This is half of *complementary slackness*, see [06_Duality.md](06_Duality.md).)
+> **Rule:** spare resource (slack > 0) ⇒ shadow price = 0. Only binding constraints can have a shadow price that isn't zero.
 
-### Why the tableau "knows" the shadow price without re-solving
+### Check by re-solving
 
-Change tank-days 8 → 9 and re-run simplex. You do **exactly the same pivots**, and only the RHS column changes:
+Change tank-days from 8 to 9 and re-solve. You do exactly the same pivots, and only the RHS changes:
 
-| | original | tank-days = 9 |
+| | tank-days = 8 | tank-days = 9 |
 |---|---|---|
 | x₁ | 8 | 9 |
 | s₂ | 4 | 3 |
 | z | 32 | **36** |
 
-Same basis, same coefficients, only the RHS moved. So each extra tank-day repeats the same trade and adds the same 4. **The shadow price is a fixed rate as long as the basis doesn't change.**
+36 − 32 = **4** ✓. That's the resource-sheet definition.
 
 ---
 
-## 5.2 A shadow price is a SLOPE, and it only holds over a RANGE
+## 5.3 A shadow price only holds over a range
 
-**Bakery (week 8 prac):** max 5x₁ + 4x₂ s.t. 2x₁ + x₂ ≤ 16 (flour), x₁ + x₂ ≤ 10 (oven-slots). Optimum (6, 4), z = 46.
+### Bakery (week 8 prac)
+
+```
+x₁ = sourdough, x₂ = rye
+
+max z = 5x₁ + 4x₂
+s.t. 2x₁ + x₂ ≤ 16     flour (kg)
+      x₁ + x₂ ≤ 10     oven-slots
+```
+
+Final table:
 
 | Basis | x₁ | x₂ | s₁ (flour) | s₂ (oven) | RHS |
 |---|---|---|---|---|---|
@@ -80,47 +103,67 @@ Same basis, same coefficients, only the RHS moved. So each extra tank-day repeat
 | x₂ | 0 | 1 | −1 | 2 | 4 |
 | z | 0 | 0 | **1** | **3** | 46 |
 
-Shadow prices: **flour $1, oven-slot $3**. If you can expand only one resource, expand **oven capacity**: it's worth 3× more at the margin.
+**Reading it:** make 6 sourdough and 4 rye for $46. Both resources are binding.
+* Flour shadow price **$1** per kg.
+* Oven-slot shadow price **$3** per slot.
+
+If you can only expand one, expand **oven capacity**: it's worth 3 times as much per unit.
+
+### What happens with one more oven-slot?
+
+Flour is still all used: 2x₁ + x₂ = 16. Oven is now x₁ + x₂ = 11. Solve: x₁ = 5, x₂ = 6, z = 25 + 24 = **49**. That's 49 − 46 = **+3** ✓.
+
+Notice what happened: **one fewer sourdough, two more rye**. Flour can't increase, so the extra slot is only useful if you swap a flour-heavy sourdough for flour-light rye.
+
+**The table already says this.** Look at the **s₂ column**: (−1, 2). Each extra oven-slot changes x₁ by **−1** and x₂ by **+2**.
+
+### Why there's a limit
+
+You can keep doing this swap, but only while you still have sourdough to swap. Each extra slot takes 1 sourdough away, and you start with 6. After 6 extra slots (oven = 16) you have no sourdough left, and more slots are useless.
 
 ![Shadow price as slope with range](img/shadow_price_range.png)
 
-**Left:** as oven-slots rise, the optimal corner slides **along the flour line**. Each slot swaps sourdough for rye and adds $3.
-**Right:** plot best profit z* against the oven-slot RHS. You get a **piecewise-linear** graph:
+**Reading the right picture:** best profit against the number of oven-slots. It's made of straight pieces:
 
-| Oven-slots | Best plan | z* | Slope = shadow price |
-|---|---|---|---|
-| < 8 | (b₂, 0), only oven binds | 5b₂ | 5 |
-| **8 – 16** | on both lines, basis {x₁, x₂} | 46 + 3(b₂ − 10) | **3** ← what the tableau says |
-| > 16 | (0, 16), only flour binds | 64 | 0 (oven-slots now spare) |
+| Oven-slots | What's going on | Extra profit per slot |
+|---|---|---|
+| below 8 | only the oven is binding; all sourdough | $5 |
+| **8 to 16** | both binding; the swap above | **$3** ← what the table says |
+| above 16 | only flour binding; oven-slots spare | $0 |
 
-> **The shadow price is the slope of z* vs that RHS.** It stays constant only while **the same constraints stay binding** (same basis). Past the range edge a different corner takes over and the slope changes.
-> Re-solve check (week 8 prac Q3): oven 10 → 11 gives (5, 6), z = 49. 49 − 46 = **3** ✓.
+> **The shadow price is the slope of that graph.** It only stays the same while the **same constraints stay binding**. Past the edge of the range, a different corner takes over and the slope changes.
 
-### Finding the range (two ways)
+### Finding the range from the table
 
-**Way 1, re-solve / think geometrically:** increase the RHS until a basic variable hits 0 (the corner runs into an axis or another constraint). In the bakery, x₁ hits 0 when oven = 16.
-
-**Way 2, from the final tableau** (handy for checking, and it's exactly what Solver's *Allowable Increase/Decrease* is):
-If a `≤` constraint's RHS changes by Δ, the new RHS column = old RHS + **Δ × (that constraint's slack column)**. All basic values must stay ≥ 0.
+Change the oven RHS by Δ. Each basic variable changes by **Δ × its number in the s₂ column**. Every basic variable must stay **≥ 0**:
 
 ```
-Oven (s₂ column = [−1, 2]):   x₁ = 6 − Δ ≥ 0  → Δ ≤ 6
-                               x₂ = 4 + 2Δ ≥ 0 → Δ ≥ −2
-⇒  −2 ≤ Δ ≤ 6   ⇒   8 ≤ oven-slots ≤ 16          ✓ matches the graph
-
-Flour (s₁ column = [1, −1]):  x₁ = 6 + Δ ≥ 0, x₂ = 4 − Δ ≥ 0  ⇒  10 ≤ flour ≤ 20
+x₁ = 6 − 1Δ ≥ 0   →  Δ ≤ 6
+x₂ = 4 + 2Δ ≥ 0   →  Δ ≥ −2
+⇒  −2 ≤ Δ ≤ 6   ⇒   oven between 8 and 16 slots   ✓ matches the graph
 ```
 
-Inside the range: **new z = old z + Δ × shadow price** (e.g. oven = 14 gives 46 + 4 × 3 = 58 ✓).
-Outside the range: the prediction is **wrong**. You must re-solve, because the binding constraints changed. (The case-study assignment asks exactly this.)
+Flour, using the s₁ column (1, −1): x₁ = 6 + Δ ≥ 0, x₂ = 4 − Δ ≥ 0 ⇒ −6 ≤ Δ ≤ 4 ⇒ **flour between 10 and 20 kg**.
+
+### Using it
+
+* **Inside the range:** new z = old z + Δ × shadow price. Oven = 14: 46 + 4 × 3 = **58** ✓.
+* **Outside the range:** the formula gives the **wrong** answer. Oven = 20: 46 + 10 × 3 = 76 ✗. The real answer is 64, because above 16 the oven isn't binding any more. **Re-solve.**
 
 ---
 
-## 5.3 Excess variables: the shadow price of a "≥" requirement
+## 5.4 The tricky one: shadow price of a `≥` requirement
 
-This is the confusing one. **Farmer:** max 100P + 30B, land P + B ≤ 7, labour 10P + 4B ≤ 40, contract **10B ≥ 30**. Optimum (2.8, 3), z = $370.
+### Farmer (week 1)
 
-Final tableau (artificial column omitted):
+```
+max z = 100P + 30B
+s.t.   P +  B ≤ 7     land
+     10P + 4B ≤ 40    labour
+          10B ≥ 30    café contract (kg)
+```
+
+Final table (artificial column left out):
 
 | Basis | P | B | s₁ (land) | s₂ (labour) | e₃ (contract) | RHS |
 |---|---|---|---|---|---|---|
@@ -129,155 +172,210 @@ Final tableau (artificial column omitted):
 | B | 0 | 1 | 0 | 0 | −0.1 | 3 |
 | z | 0 | 0 | **0** | **10** | **1** | 370 |
 
-* Land: s₁ basic (1.2 ha spare), so **shadow price 0**.
-* Labour: s₂ non-basic, so **shadow price +$10 per hour**.
-* Contract: e₃ non-basic (excess 0, binding). The entry is **1**, but the **shadow price is −1**. Here's why:
+**Reading it:** 2.8 ha pineapples and 3 ha bananas for $370.
+* **Land:** s₁ is in the basis (1.2 ha spare), so shadow price **$0**.
+* **Labour:** s₂ is not in the basis, so shadow price **+$10 per hour**.
+* **Contract:** e₃ is not in the basis (binding). The z-row number is **1**, but the shadow price is **−1**. Here's why.
 
-### See it
+### Why the sign flips
+
+A **limit** (`≤`) and a **requirement** (`≥`) work in opposite directions:
+
+* Raise a `≤` limit (more labour) → **more freedom** → the region grows → profit can only go **up**.
+* Raise a `≥` requirement (café wants more bananas) → **less freedom** → the region shrinks → profit can only go **down**.
 
 ![Shadow price of a ≥ constraint](img/shadow_price_excess.png)
 
-* For a `≤` resource, raising the RHS **loosens** the constraint, so the region **grows** and z can only improve.
-* For a `≥` requirement, raising the RHS **tightens** the constraint, so the region **shrinks** (orange strip lost) and z can only **get worse**.
-* Contract 30 → 31 kg: the optimum moves to (2.76, 3.1), z = 369. **New − old = −1.** Each extra kg the café demands **costs the farmer $1**. (More bananas means less labour for the more profitable pineapples.)
-* The right graph is the same "slope with a range" idea: slope −1 up to 50 kg, then −7 (land binds too), and **infeasible** above 70 kg.
+**Check by re-solving:** contract 30 → 31 kg. B = 3.1, and labour: 10P = 40 − 4(3.1) = 27.6, so P = 2.76.
+z = 100(2.76) + 30(3.1) = 276 + 93 = **369**. New − old = **−1**.
+**Each extra kg the café demands costs the farmer $1.** More bananas use labour that would have gone to the more profitable pineapples.
 
-### Why the tableau entry is +1 but the shadow price is −1
+**Reading the right picture:** best profit against the contract size. The slope is −1 up to 50 kg, then steeper (land runs out too), and above 70 kg it's impossible.
 
-The z-row entry under **any** non-basic variable = **how much z falls if that variable is pushed up by 1**.
+### The rule
 
-* Push **s₂** up by 1 ⇒ use one *less* labour hour ⇒ like having one *fewer* hour ⇒ z falls by 10. So one *more* hour **raises** z by 10. **Shadow price = +entry.**
-* Push **e₃** up by 1 ⇒ over-deliver 1 kg ⇒ same effect as the requirement going **up** by 1 ⇒ z falls by 1. **Shadow price = −entry = −1.**
+The z-row number always means "how much z drops if this variable goes up by 1":
+* **s₂ up by 1** = one labour hour **unused** = like having one **fewer** hour → z drops 10. So one **more** hour → z **rises** 10. **Shadow price = +10.**
+* **e₃ up by 1** = over-deliver 1 kg = like the requirement going **up** 1 → z drops 1. **Shadow price = −1.**
 
-> **Rule of thumb (maximisation):**
-> `≤` constraint: shadow price = **+** (z-row entry under its slack) ≥ 0
-> `≥` constraint: shadow price = **−** (z-row entry under its excess) ≤ 0
-> If you're unsure in the exam, **re-solve with RHS + 1 and take new − old.** That's the formula-sheet definition, and it can't be wrong.
+> **For a max problem:**
+> `≤` constraint: shadow price = **+** (number under its slack)
+> `≥` constraint: shadow price = **−** (number under its excess)
+> **Unsure in the exam? Re-solve with RHS + 1 and take new − old.**
 
-### Minimisation problems
+---
 
-Signs are about the **cost**. In the grain problem (min cost, two `≥` requirements) the final z′ row (z′ = −z) had **9/5 under e₁ and 2/5 under e₂**:
+## 5.5 Minimisation problems
 
-* Protein requirement 10 → 11: re-solve gives (3.6, 3.8), cost 25.80. **New − old = +1.80.** Each extra unit of protein required costs **$1.80 more**.
+For a min, the shadow price is about **cost**. Grain problem (note 4): the final z′ row had **9/5 under e₁** (protein) and **2/5 under e₂** (fibre).
+
+* Protein 10 → 11: re-solving gives (3.6, 3.8), cost 4(3.6) + 3(3.8) = 25.80. New − old = **+$1.80**.
 * Fibre: **+$0.40** per extra unit.
-* Makes sense: a tighter requirement can only make the minimum cost **higher**.
 
-| Problem | Constraint type (binding) | Effect of RHS + 1 | Shadow price sign (new − old) |
+That makes sense: a tougher requirement can only make the cheapest plan **more expensive**.
+
+### All the sign cases in one table
+
+| Problem | Binding constraint | RHS + 1 does… | Shadow price |
 |---|---|---|---|
-| max | `≤` resource | region grows | **≥ 0** |
-| max | `≥` requirement | region shrinks | **≤ 0** |
-| min | `≥` requirement | region shrinks | **≥ 0** (cost rises) |
-| min | `≤` capacity | region grows | **≤ 0** (cost falls) |
-| any | non-binding (slack/excess > 0) | irrelevant part of region | **0** |
+| max | `≤` limit | gives more freedom | **≥ 0** (profit up) |
+| max | `≥` requirement | takes freedom away | **≤ 0** (profit down) |
+| min | `≥` requirement | takes freedom away | **≥ 0** (cost up) |
+| min | `≤` limit | gives more freedom | **≤ 0** (cost down) |
+| any | non-binding | nothing useful | **0** |
 
 ---
 
-## 5.4 Opportunity cost: the intuition behind both numbers
+## 5.6 Reduced cost: the product you don't make
 
-> *"The real cost of using a scarce thing is what you give up by not using it on the next best option."*
-
-* **Shadow price** = the opportunity cost of a **resource**: a tank-day is worth 4 ML because that's the water you'd lose without it.
-* **Reduced cost** = the opportunity cost of a **product**, seen from the product's side (next section).
-* Practical reading: the shadow price is the **most you should pay for one extra unit** of that resource (on top of what's already in your profit figures).
-
----
-
-## 5.5 Reduced cost: the product you don't make
-
-Back to the water works: x₂ (advanced) is non-basic with z-row entry **1**.
+Back to the water works: advanced batches (x₂) aren't made, and the z-row number under x₂ is **1**.
 
 ![Reduced cost](img/reduced_cost.png)
 
-**Left: why exactly 1 ML?** All 8 tank-days are already used by standard batches. To make one advanced batch:
+### Why exactly 1? Think it through
 
-1. it needs 1 tank-day, and none are spare, so **drop one standard batch: −4 ML**
+All 8 tank-days are used by standard batches. To make **one** advanced batch:
+1. it needs 1 tank-day. None are spare, so **drop one standard batch: −4 ML**
 2. gain the advanced batch: **+3 ML**
-3. net **−1 ML**. That's the **reduced cost**.
+3. net: **−1 ML**. That's the **reduced cost**.
 
-**Calculating it from shadow prices** (always works, and it's a great check):
+Making advanced batches loses water, so the best plan doesn't make any.
 
+### Calculating it from shadow prices
+
+This always works and is a good check:
 ```
-reduced cost of xⱼ = (resources one unit uses, valued at shadow prices) − (its profit)
+reduced cost = (what the resources it uses are worth, at shadow prices) − (its own profit)
 
-advanced batch: 1 tank-day × $4  +  3 chem × $0  =  4 ;   4 − 3 = 1  ✓
-baguette (bakery prac): 2 flour × $1 + 2 oven × $3 = 8 ;  8 − 6 = 2  ✓
+advanced batch: 1 tank-day × 4 + 3 chemicals × 0 = 4;   4 − 3 = 1 ✓
+baguette (bakery prac): 2 flour × 1 + 2 oven × 3 = 8;   8 − 6 = 2 ✓
 ```
 
-**Right: two ways to read it.**
+### Two ways to say what it means
 
-1. **Forced in:** if a regulation demands some advanced batches, each one costs 1 ML of output.
-2. **How much must it improve?** Its profit must rise by the reduced cost (3 → **4**) before it's worth making.
-   * At c₂ = 4 the isoprofit line is parallel to the tank-days edge, so (8, 0) and (6, 2) tie (alternative optima).
-   * Above 4 the optimum **jumps** to (6, 2) and x₂ enters the plan.
+1. **If forced in:** if a rule says you must make some advanced batches, each one costs 1 ML of output.
+2. **How much better must it be?** Its yield must rise by the reduced cost, from 3 to **4**, before it's worth making.
+   * At exactly 4 there's a tie between (8, 0) and (6, 2).
+   * Above 4 the best plan **switches** to (6, 2), and advanced batches come into the plan.
 
-**Size = confidence:** a small reduced cost (1) means the decision not to make it is **fragile**. A large one means it's safe.
+**Small reduced cost** (like 1) = "only just not worth it". A small price change could put it in the plan.
+**Large reduced cost** = "nowhere near worth it".
 
-> **Basic (produced) variables always have reduced cost 0.** They're in the plan because they're worth making, so forcing in one more neither gains nor loses at the margin.
+> **Products you DO make always have reduced cost 0.** They're already in the plan because they're worth making.
+
+### A brand-new product: should we make it? (practice exam 1, Q4c)
+
+Ceramics studio: best plan is 6 mugs ($3) + 6 bowls ($2) = $30, using all 18 kiln hours and all 12 kg clay; shadow prices kiln **$1**, clay **$1**, glaze **$0**. A new **vase** uses 1 kiln hour + 1 kg clay, no glaze, earns **$2.50**.
+
+**Slow way: just make one and see.** Kiln and clay are full, so mugs and bowls now get 17 kiln hours and 11 kg clay: 2x₁ + x₂ = 17, x₁ + x₂ = 11 → x₁ = 6, x₂ = 5.
+
+| Plan | Mugs ($3) | Bowls ($2) | Vases ($2.50) | Kiln (of 18) | Clay (of 12) | Glaze (of 10) | Profit |
+|---|---|---|---|---|---|---|---|
+| Current | 6 | 6 | 0 | 12+6 = 18 | 6+6 = 12 | 6 | 18+12 = **$30** |
+| +1 vase | 6 | 5 | 1 | 12+5+1 = 18 | 6+5+1 = 12 | 5 | 18+10+2.50 = **$30.50** |
+
+Reading it: fitting one vase in costs one bowl (**−$2**), the vase earns **+$2.50**, net **+$0.50**. Make vases.
+
+**Shortcut: shadow prices give that $2 directly.**
+```
+1 kiln × $1 + 1 clay × $1 + 0 glaze × $0 = $2     (what its resources earn in the current plan)
+reduced cost = $2 − $2.50 = −$0.50                 (negative in a max ⇒ worth making)
+```
+
+**Why this is allowed: it's duality.** The shadow prices y = (1, 1, 0) are the dual solution, and the dual has one rule per product: *its resources, valued at y, must be worth at least its profit* (note 6, §6.2).
+
+| Product | Uses (kiln, clay, glaze) | Value at y = (1, 1, 0) | Profit | Dual rule OK? |
+|---|---|---|---|---|
+| Mug | (2, 1, 0) | 2 + 1 + 0 = 3 | 3 | 3 ≥ 3 ✓ (equal → made) |
+| Bowl | (1, 1, 1) | 1 + 1 + 0 = 2 | 2 | 2 ≥ 2 ✓ (equal → made) |
+| **Vase (new)** | (1, 1, 0) | 1 + 1 + 0 = **2** | **2.50** | 2 ≥ 2.50 ✗ **broken** |
+
+Reading it: a new product adds a new dual rule. If the current prices break it, they're no longer valid dual values, so the current plan is no longer optimal, and the new product should come in.
+
+> Shadow prices say **whether** to make it, not **how many**. Re-solving gives (6 mugs, 0 bowls, 6 vases), $33. Bowls disappear completely, because a vase uses the same kiln hour and clay as a bowl, needs no glaze, and earns more.
 
 ---
 
-## 5.6 Two kinds of "what if": don't mix them up
+## 5.7 Opportunity cost: the idea behind both numbers
 
-| What changes | Picture | Plan (x values) | z |
+> *"The real cost of using something scarce is what you give up by not using it on the next best thing."*
+
+* **Shadow price** = what a **resource** is really worth to you. A tank-day is worth 4 ML because that's what you'd lose without it. It's the **most you should pay** for one more unit.
+* **Reduced cost** = the same idea from a **product's** point of view: what you give up by making it instead of the current plan.
+
+---
+
+## 5.8 Two kinds of "what if": don't mix them up
+
+| What changes | What it does to the picture | Plan (x values) | z |
 |---|---|---|---|
-| **RHS** of a constraint (resource amount) | a constraint line **shifts parallel** | **changes** (corner slides), but the *same constraints stay binding* within the range | changes by **shadow price × Δ** |
-| **Objective coefficient** (profit per unit) | the isoprofit line **tilts** | **stays the same** within its range (see [02_Graphical_Method.md](02_Graphical_Method.md) §2.3) | changes by Δ × (that variable's value) |
-| Coefficient of a **non-basic** variable | tilt | stays the same until the increase exceeds the **reduced cost** | unchanged |
+| **RHS** (amount of a resource) | a constraint line **moves** (stays parallel) | **changes**: the corner slides, but the same constraints stay binding inside the range | changes by **shadow price × Δ** |
+| **Objective coefficient** (profit per unit) | the profit line **tilts** | **stays the same** inside its range (note 2, §2.5) | changes by **Δ × that variable's value** |
+| Profit of a product **not made** | tilt | stays the same until the increase passes the **reduced cost** | unchanged |
 
 ---
 
-## 5.7 Reading an Excel Solver sensitivity report
+## 5.9 Reading an Excel Solver sensitivity report
 
-**Variable cells**
+**Variable Cells**
 
 | Column | Meaning |
 |---|---|
-| Final Value | optimal xⱼ |
-| Reduced Cost | for non-basic xⱼ, the penalty per unit forced in (Solver shows it **negative** for a max: −1 = "z drops 1"). 0 for basic variables. |
-| Objective Coefficient | cⱼ |
-| Allowable Increase / Decrease | how far cⱼ can move with the **same plan** (graphical range) |
+| Final Value | the best value of each variable |
+| Reduced Cost | for a product not made: the loss per unit if forced in. Solver shows it as **negative** for a max (−1 means z drops 1). 0 for products you do make |
+| Objective Coefficient | its profit per unit |
+| Allowable Increase / Decrease | how far that profit can move with **the same plan** |
 
 **Constraints**
 
 | Column | Meaning |
 |---|---|
-| Final Value | LHS used at the optimum (compare with RHS to get slack) |
-| **Shadow Price** | Δz per +1 RHS |
-| Constraint R.H. Side | bᵢ |
-| Allowable Increase / Decrease | the **range** over which the shadow price holds |
+| Final Value | how much of the resource the plan uses (compare with the RHS to get the slack) |
+| **Shadow Price** | change in z per +1 of the RHS |
+| Constraint R.H. Side | the amount available / required |
+| Allowable Increase / Decrease | the **range** where that shadow price holds |
 
-Bakery: oven shadow price 3, RHS 10, allowable increase **6** (to 16), allowable decrease **2** (to 8). Sourdough coefficient 5 can move between **4 and 8** (−c₁/4 must stay between −2 and −1) without changing the plan.
-
----
-
-## 5.8 Exam answer templates (write it like this)
-
-* **Shadow price (binding):** "The shadow price of oven-slots is $3. Each additional oven-slot increases maximum profit by $3, valid from 8 to 16 slots. Oven-slots are a binding (scarce) resource."
-* **Shadow price (non-binding):** "Chemicals have slack of 4 units at the optimum, so their shadow price is 0. Extra chemicals would not increase output."
-* **≥ requirement:** "The contract constraint is binding with shadow price −$1/kg. Each extra kg the café requires reduces profit by $1."
-* **Reduced cost:** "Advanced treatment has reduced cost 1 ML. Forcing one batch reduces output by 1 ML, and its yield would need to rise from 3 to at least 4 ML per batch before it becomes worth producing."
-* **Which resource to buy more of:** the one with the **largest shadow price** (if the extra unit costs less than that).
+Bakery: oven shadow price 3, RHS 10, allowable increase **6** (up to 16), allowable decrease **2** (down to 8). The sourdough profit of 5 can move between **4 and 8** without changing the plan (−c₁/4 must stay between −2 and −1).
 
 ---
 
-## Quick self-check (week 8 prac, Part E)
+## 5.10 Exam answer templates
 
-<details><summary>Q10: max 5x₁ + 3x₂, x₁ + x₂ ≤ 8, x₁ + 2x₂ ≤ 10. Final z row = (0, 2, 5, 0 | 40), basis x₁ = 8, s₂ = 2. Interpret every number.</summary>
+* **Shadow price (binding):** "The shadow price of oven-slots is $3. Each extra oven-slot increases the maximum profit by $3, valid between 8 and 16 slots. Oven-slots are a binding (scarce) resource."
+* **Shadow price (non-binding):** "Chemicals have 4 units of slack at the optimum, so their shadow price is 0. Extra chemicals would not increase output."
+* **`≥` requirement:** "The contract is binding with shadow price −$1 per kg. Each extra kg the café requires lowers profit by $1."
+* **Reduced cost:** "Advanced treatment has reduced cost 1 ML. Forcing in one batch reduces output by 1 ML, and its yield would need to rise from 3 to at least 4 ML per batch before it's worth making."
+* **Which resource to buy:** the one with the **largest shadow price**, as long as it costs less than that.
+
+---
+
+## Common mistakes
+
+1. Reading a shadow price under a slack that's **in the basis**. That resource has spare, so its shadow price is 0.
+2. Forgetting to flip the sign for a `≥` constraint in a max problem.
+3. Using a shadow price **outside its range**. Re-solve instead.
+4. Mixing up RHS changes (plan moves) with profit changes (plan stays).
+
+---
+
+## Check yourself (week 8 prac, Part E)
+
+<details><summary>1. max 5x₁ + 3x₂ s.t. x₁ + x₂ ≤ 8, x₁ + 2x₂ ≤ 10. The final z row is (0, 2, 5, 0 | 40) and the basis is x₁ = 8, s₂ = 2. Explain every number.</summary>
 
 * Plan: x₁ = 8, x₂ = 0, z = 40.
-* Under x₂: **2 = reduced cost**. Each x₂ forced in costs $2, and its profit must rise from 3 to 5 to be worth making.
-* Under s₁: **5 = shadow price** of constraint 1 (binding).
-* Under s₂: **0**. s₂ is basic at 2 (2 spare units), so it's non-binding with shadow price 0.
-* Check the reduced cost: x₂ uses 1 of resource 1 (× $5) + 2 of resource 2 (× $0) = 5, minus profit 3, gives **2** ✓.
+* Under x₂: **2 = reduced cost**. Each x₂ forced in costs 2, and its profit must rise from 3 to 5 to be worth making.
+* Under s₁: **5 = shadow price** of constraint 1, which is binding.
+* Under s₂: **0**. s₂ is in the basis at 2 (2 units spare), so constraint 2 is non-binding.
+* Check the reduced cost: x₂ uses 1 of resource 1 (× 5) + 2 of resource 2 (× 0) = 5. Minus its profit 3 = **2** ✓.
 </details>
 
-<details><summary>Co-op final z row is (0, 0, 3/2, 1/2 | 18). An installer offers 2 extra installer-days for 1.2 MWh total. Worth it?</summary>
+<details><summary>2. Co-op final z row is (0, 0, 3/2, 1/2 | 18). Someone offers 2 extra installer-days in exchange for 1.2 MWh. Worth it?</summary>
 
-The shadow price of installer-days is 1/2 MWh per day, so 2 days add ≈ 1 MWh (assuming you stay in range). 1.2 > 1, so **not worth it**. Rooftops, at 3/2 each, are the more valuable resource.
+Installer-days have shadow price 1/2, so 2 extra days add about 1 MWh (if we stay in range). Giving up 1.2 to get 1 is **not worth it**. Rooftops, at 3/2 each, are the more valuable resource.
 </details>
 
-<details><summary>The bakery's oven-slot shadow price is 3 (range 8–16). Predict z at 14 slots and at 20 slots.</summary>
+<details><summary>3. Bakery oven shadow price is 3, with range 8–16. Predict z at 14 slots and at 20 slots.</summary>
 
 14 is inside the range: 46 + 4 × 3 = **58** ✓.
-20 is outside: the naive prediction 46 + 10 × 3 = 76 is **wrong**. Above 16 oven-slots stop binding, so the true z = **64**.
+20 is outside: 46 + 10 × 3 = 76 is **wrong**. Above 16 the oven stops being binding, so the real z = **64**.
 </details>
