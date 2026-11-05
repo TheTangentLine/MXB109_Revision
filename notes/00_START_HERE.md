@@ -24,7 +24,7 @@ Each note builds on the one before, so read them in order the first time.
 | 7 | [07_Transportation.md](07_Transportation.md) | Shipping goods from factories to cities as cheaply as possible |
 | 8 | [08_Game_Theory.md](08_Game_Theory.md) | Two opponents choosing at the same time |
 | 9 | [09_Networks.md](09_Networks.md) | Shortest route, and connecting everything with the least cable |
-| 10 | [10_Cheat_Sheet.md](10_Cheat_Sheet.md) | Everything for the exam on one sheet: rules, formulas, sentences to write |
+| 10 | [10_Cheat_Sheet.md](10_Cheat_Sheet.md) ([PDF](10_Cheat_Sheet.pdf)) | Everything for the exam on one sheet: rules, formulas, sentences to write |
 
 Notes 1 → 5 are one connected story. Notes 6 → 9 can be read in any order after that.
 

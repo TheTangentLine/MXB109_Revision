@@ -45,17 +45,18 @@ This page is the **summary**. Each section links to a full note that explains it
 | [07 Transportation](notes/07_Transportation.md) | shipping from factories to cities as cheaply as possible | Wk 11 | ✅✅ |
 | [08 Game Theory](notes/08_Game_Theory.md) | two opponents choosing at the same time | Wk 12 | ✅✅ |
 | [09 Networks](notes/09_Networks.md) | shortest route; connecting everything cheaply | Wk 13 | ✅ |
-| [10 Exam Cheat Sheet](notes/10_Cheat_Sheet.md) | every rule, formula and exam sentence in one place | all | for the exam |
+| [10 Exam Cheat Sheet](notes/10_Cheat_Sheet.md) ([PDF](notes/10_Cheat_Sheet.pdf)) | every rule, formula and exam sentence in one place | all | for the exam |
 
 Every note follows the same pattern: **the big idea → a worked example step by step → common mistakes → check yourself** (answers hidden until you click).
 
-**Practice exams** (60 marks, 2 hours, every topic):
+**Practice exams** (every topic; Exams 1–3 are 60 marks, 2 hours):
 
 | Exam | Paper | Solutions |
 |---|---|---|
 | 1 | [Practice_Exam_1.md](practice_exams/Practice_Exam_1.md) | [Practice_Exam_1_Solutions.md](practice_exams/Practice_Exam_1_Solutions.md) |
 | 2 | [Practice_Exam_2.md](practice_exams/Practice_Exam_2.md) | [Practice_Exam_2_Solutions.md](practice_exams/Practice_Exam_2_Solutions.md) |
 | 3 | [Practice_Exam_3.md](practice_exams/Practice_Exam_3.md) | [Practice_Exam_3_Solutions.md](practice_exams/Practice_Exam_3_Solutions.md) |
+| 4 (short: 40 marks, 80 min) | [Practice_Exam_4.md](practice_exams/Practice_Exam_4.md) | [Practice_Exam_4_Solutions.md](practice_exams/Practice_Exam_4_Solutions.md) |
 
 **Viewing:** in VS Code press `Cmd+Shift+V`. The pictures are in [`notes/img/`](notes/img/).
 

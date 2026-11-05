@@ -1,0 +1,613 @@
+\documentclass[10pt,a4paper]{article}
+
+\usepackage[a4paper,margin=1.6cm,top=1.5cm,bottom=1.8cm]{geometry}
+\usepackage[T1]{fontenc}
+\usepackage{lmodern}
+\usepackage{microtype}
+\usepackage{amsmath,amssymb}
+\usepackage{array,tabularx,booktabs}
+\usepackage{enumitem}
+\usepackage{titlesec}
+\usepackage[table]{xcolor}
+\usepackage{tcolorbox}
+\usepackage{fancyhdr}
+\usepackage{multicol}
+\usepackage[hidelinks]{hyperref}
+
+% ---------- look ----------
+\definecolor{accent}{HTML}{1F4E79}
+\definecolor{boxbg}{HTML}{F2F5F9}
+\definecolor{trap}{HTML}{8B1E1E}
+
+\titleformat{\section}{\large\bfseries\color{accent}}{\thesection.}{0.5em}{}[\vspace{-0.6em}\textcolor{accent}{\rule{\linewidth}{0.6pt}}]
+\titlespacing*{\section}{0pt}{1.2em}{0.6em}
+\titleformat{\subsection}{\normalsize\bfseries}{}{0em}{}
+\titlespacing*{\subsection}{0pt}{0.8em}{0.3em}
+
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{0.35em}
+\setlist{nosep,leftmargin=1.4em}
+\renewcommand{\arraystretch}{1.25}
+\setlength{\tabcolsep}{5pt}
+
+\pagestyle{fancy}
+\fancyhf{}
+\fancyhead[L]{\small\color{gray}MXB109 Exam Cheat Sheet}
+\fancyhead[R]{\small\color{gray}\leftmark}
+\fancyfoot[C]{\small\thepage}
+\renewcommand{\headrulewidth}{0.3pt}
+\renewcommand{\sectionmark}[1]{\markboth{#1}{}}
+
+% working / calculation box
+\newtcolorbox{work}{colback=boxbg,colframe=boxbg,boxrule=0pt,arc=2pt,
+  left=6pt,right=6pt,top=9pt,bottom=5pt,before skip=4pt,after skip=6pt,
+  before upper={\setlength{\abovedisplayskip}{0pt}\setlength{\belowdisplayskip}{0pt}%
+  \setlength{\abovedisplayshortskip}{0pt}\setlength{\belowdisplayshortskip}{0pt}\vspace*{-\baselineskip}}}
+
+% one-line formula box
+\newtcolorbox{workline}{colback=boxbg,colframe=boxbg,boxrule=0pt,arc=2pt,halign=center,
+  left=6pt,right=6pt,top=4pt,bottom=4pt,before skip=4pt,after skip=6pt}
+
+% "Reading it" line
+\newcommand{\reading}[1]{\textit{Reading it:} #1}
+
+% table helpers
+\newcolumntype{L}{>{\raggedright\arraybackslash}X}
+\newcommand{\thead}[1]{\textbf{#1}}
+
+\newcommand{\Le}{\ensuremath{\leq}}
+\newcommand{\Ge}{\ensuremath{\geq}}
+\newcommand{\cbar}{\ensuremath{\bar c}}
+
+\setcounter{section}{-1}
+
+\begin{document}
+
+\begin{center}
+  {\LARGE\bfseries\color{accent} MXB109 Exam Cheat Sheet}\par\vspace{0.3em}
+  {\small Everything you need in the exam: \textbf{which method}, \textbf{the rules},
+  \textbf{the formulas}, and \textbf{the sentence to write}.}
+\end{center}
+
+{\small
+\setcounter{tocdepth}{1}
+\renewcommand{\contentsname}{\normalsize Contents}
+\begingroup\setlength{\parskip}{0pt}
+\begin{multicols}{2}
+\tableofcontents
+\end{multicols}
+\endgroup}
+
+% =====================================================================
+\section{The routine for every question}
+
+\begin{enumerate}
+  \item \textbf{Diagnose:} ``This is a \underline{\hspace{1.5cm}} problem because \underline{\hspace{2.5cm}}.'' (1 line, usually worth marks)
+  \item \textbf{Run the method:} show every table, the entering/leaving variable, and the row operations.
+  \item \textbf{Answer in words, with units:} ``Make 20 chairs and 10 shelves for \$13{,}000 profit. Timber and finishing are fully used; 10 labour days are spare.''
+\end{enumerate}
+
+\subsection{Which method?}
+
+\begin{tabularx}{\linewidth}{@{}LL c@{}}
+\toprule
+\thead{The question has\ldots} & \thead{Method} & \thead{Note} \\
+\midrule
+supplies, demands, a cost grid & Transportation & 7 \\
+two opponents, a payoff table & Game theory & 8 \\
+nodes and roads/pipes, ``quickest route'' & Shortest path & 9 \\
+nodes and roads, ``connect everything, least cable'' & Minimum spanning tree & 9 \\
+an LP with \textbf{2 variables} & Graphical & 2 \\
+an LP, all \Le, RHS $\geq 0$ (origin works) & Simplex & 3 \\
+an LP with \Ge{} or $=$ (origin fails) & Big M, then simplex & 4 \\
+``one more unit worth'', ``binding'', ``range'' & Shadow price & 5 \\
+``not produced'', ``how much must profit rise'', ``new product'' & Reduced cost & 5 \\
+``dual'', ``bound'', ``certify optimal'', ``value of resources'' & Duality & 6 \\
+\bottomrule
+\end{tabularx}
+
+% =====================================================================
+\section{Formulation}
+
+\textbf{Three parts, always:}
+\begin{enumerate}
+  \item \textbf{Decision variables}, with units: ``$x_1$ = kg of brand A per week''. Never call a variable $z$.
+  \item \textbf{Objective:} max profit or min cost, with units (``$z$ in \$100s'').
+  \item \textbf{Constraints}, one per limit/requirement, each labelled, plus \textbf{$x_j \geq 0$}.
+\end{enumerate}
+
+\begin{tabularx}{\linewidth}{@{}L l@{}}
+\toprule
+\thead{Words} & \thead{Symbol} \\
+\midrule
+``at most'', ``no more than'', ``up to'', ``available'', ``capacity'' & \Le \\
+``at least'', ``no less than'', ``minimum'', ``requirement'' & \Ge \\
+``exactly'', ``all of'', ``must total'' & $=$ \\
+``A is at least 30\% of the total'' & $x_A \geq 0.3(x_A+x_B+x_C) \;\Rightarrow\; \mathbf{0.7x_A - 0.3x_B - 0.3x_C \geq 0}$ \\
+``at least twice as many A as B'' & $x_A \geq 2x_B \;\Rightarrow\; \mathbf{x_A - 2x_B \geq 0}$ \\
+\bottomrule
+\end{tabularx}
+
+\reading{always move every variable to the left-hand side so the RHS is a plain number.}
+
+\textbf{Check every coefficient against the table in the question} (your Exam 2 typo: 0.01 instead of 0.10 cost you two parts).
+
+% =====================================================================
+\section{Standard form: slack, excess, artificial}
+
+\begin{tabularx}{\linewidth}{@{}c l l l L@{}}
+\toprule
+\thead{Constraint} & \thead{Add} & \thead{Name} & \thead{Formula} & \thead{Meaning} \\
+\midrule
+\Le & $\mathbf{+\,s}$ & slack & $\mathbf{s = \text{RHS} - \text{LHS}}$ & how much is \textbf{left over / unused} \\
+\Ge & $\mathbf{-\,e}$ ($+\,a$) & excess (surplus) & $\mathbf{e = \text{LHS} - \text{RHS}}$ & how much you went \textbf{over} the requirement \\
+$=$ & $\mathbf{+\,a}$ & artificial only & none (no slack) & nothing real; must be 0 at the end \\
+\bottomrule
+\end{tabularx}
+
+\reading{slack and excess are always $\geq 0$. A negative one means the plan \textbf{breaks} that constraint (infeasible).}
+
+\begin{tabularx}{\linewidth}{@{}l l L@{}}
+\toprule
+\thead{Value} & \thead{Word} & \thead{Sentence for the exam} \\
+\midrule
+$s$ or $e = 0$ & \textbf{binding} & ``All 18 kiln hours are used up; kiln time is what limits the plan.'' \\
+$s$ or $e > 0$ & \textbf{non-binding} & ``4 litres of glaze are left over; glaze isn't limiting anything.'' \\
+\bottomrule
+\end{tabularx}
+
+\textbf{Explain without the words ``slack'' or ``binding''} (asked in Exam 1): ``There are 4 kiln hours left over, so we could make more mugs and earn more. So this plan can't be the best.''
+
+\textbf{Before you start:}
+\begin{itemize}
+  \item \textbf{Negative RHS:} multiply the row by $-1$ (flips \Le{} $\leftrightarrow$ \Ge).
+  \item \textbf{Min problem:} $\max z' = -z$. At the end, $\mathbf{z = -z'}$.
+  \item \textbf{How many artificials?} Plug the origin into every row. Every row that \textbf{fails} (a \Ge{} with positive RHS, or an $=$) gets one. A \Ge{} with RHS 0 passes, so it needs none. Say which rows and why.
+\end{itemize}
+
+\textbf{Basic solutions:} $n$ variables (after adding slacks) and $m$ equations $\Rightarrow$ \textbf{$n-m$ variables are 0} at a basic solution; there are at most $\binom{n}{m}$ of them. Set the chosen ones to 0 and solve for the rest; feasible only if all are $\geq 0$.
+
+% =====================================================================
+\section{Graphical method}
+
+\begin{enumerate}
+  \item Draw each constraint line (find both intercepts), shade the allowed side, label the lines.
+  \item List \textbf{every corner} and its $z$ value in a table. (Missing $z$ values = lost marks.)
+  \item Pick the best $z$. Or slide the isoprofit line: max $\to$ furthest out, min $\to$ closest in.
+\end{enumerate}
+
+\textbf{Slope of $ax + by = c$ is $-a/b$.}
+
+\textbf{Objective coefficient range} (how far a price can move before the plan changes):
+\begin{enumerate}
+  \item Find the two \textbf{binding} lines at the optimal corner.
+  \item Work out their slopes $-a/b$.
+  \item Require the profit slope $-c_1/c_2$ to sit \textbf{between} them; solve for the changing price. (Multiplying by a negative flips both inequalities.)
+\end{enumerate}
+
+\begin{tabularx}{\linewidth}{@{}l L@{}}
+\toprule
+\thead{Picture} & \thead{Meaning} \\
+\midrule
+objective parallel to a binding edge & \textbf{alternative optima}: every point on that edge (give the segment, e.g.\ $2x_1 + x_2 = 16$, $3 \leq x_1 \leq 6$) \\
+region open in the improving direction & \textbf{unbounded} \\
+no overlapping region & \textbf{infeasible} \\
+min problem, open region, positive costs & still has an optimum: cost only grows as you move further out, so the minimum is at a corner \\
+\bottomrule
+\end{tabularx}
+
+\textbf{Shadow price graphically:} RHS $+1$, re-solve, \textbf{new $z$ $-$ old $z$}.
+
+% =====================================================================
+\section{Simplex}
+
+\begin{tabularx}{\linewidth}{@{}l L@{}}
+\toprule
+\thead{Step} & \thead{Rule} \\
+\midrule
+Start & slacks are basic; you're at the origin \\
+\textbf{Enter} & most negative number in the $z$ row (variable columns only) \\
+\textbf{Leave} & ratio RHS $\div$ entering-column entry, \textbf{positive entries only}, smallest wins \\
+Pivot & divide the pivot row by the pivot; then \textbf{new row = old row $-$ (its entry in pivot column) $\times$ new pivot row} \\
+Stop & no negatives in the $z$ row (max) \\
+\bottomrule
+\end{tabularx}
+
+\textbf{Write the row ops} every pivot: $R_2' = R_2/3$,\; $R_1' = R_1 - R_2'$,\; $R_z' = R_z + 4R_2'$.
+
+\textbf{Checks after every pivot:} entering column = 1 with 0s elsewhere ($z$ row too); all RHS $\geq 0$; $z$ never gets worse.
+
+\subsection{Reading any table}
+
+\begin{tabularx}{\linewidth}{@{}l L@{}}
+\toprule
+\thead{Look at} & \thead{It tells you} \\
+\midrule
+Basis column + RHS & the basic variables' values \\
+variables not in the Basis column & $\mathbf{= 0}$ \\
+$z$ row, RHS & current $z$ (remember the units, and $z = -z'$ for a min) \\
+final $z$ row, under a slack/excess & \textbf{shadow price} (section 7) \\
+final $z$ row, under a non-basic decision variable & \textbf{reduced cost} \\
+final $z$ row, \textbf{0} under a \textbf{non-basic} variable & \textbf{alternative optima} \\
+\bottomrule
+\end{tabularx}
+
+\textbf{Basis} = the list of variables in the Basis column, e.g.\ $\{x_1, x_2, s_3\}$.
+
+Ratio test tie $\to$ pick either; the next table has a basic variable equal to 0 (degenerate). Carry on as normal.
+
+% =====================================================================
+\section{Big M}
+
+\begin{enumerate}
+  \item \textbf{Test the origin} in every row. Rows that fail get an artificial.
+  \item Standard form: $+s$, $-e$, $+a$.
+  \item \textbf{Penalise:} max $\to$ $\mathbf{-Ma_i}$ in the objective, for \textbf{every} artificial. (Min: turn into $\max z' = -z$ first, then $-Ma_i$.)
+  \item Write the $z$ row: $z - c_1x_1 - \dots + Ma_1 = 0$ (so \textbf{$+M$ under each artificial}).
+  \item \textbf{Clear the M's: $R_z - M \times$ (each artificial's row).}
+\end{enumerate}
+
+\begin{tabular}{@{}l l l@{}}
+\toprule
+\thead{Try} & \thead{Entry under $a$} & \thead{Result} \\
+\midrule
+$R_z \;\mathbf{+}\; M\cdot R$ & $M + M = 2M$ & wrong \\
+$R_z \;\mathbf{-}\; M\cdot R$ & $M - M = \mathbf{0}$ & right \\
+\bottomrule
+\end{tabular}
+
+\reading{a basic variable must have 0 in the $z$ row, so \textbf{subtract}. Only the artificial rows are used, so only their RHS appears (e.g.\ $-12M$).}
+
+\begin{enumerate}[resume]
+  \item Run simplex. \textbf{Comparing M terms:} the bigger number in front of $-M$ is more negative ($-4 - 3M$ beats $-2 - M$). Unsure? Put $M = 1000$.
+  \item Once an artificial leaves, ignore its column.
+\end{enumerate}
+
+\textbf{End of Big M:}
+\begin{itemize}
+  \item artificial still basic with value $> 0$ $\to$ \textbf{infeasible}
+  \item otherwise read the answer as normal (min: cost $= -z'$)
+\end{itemize}
+
+% =====================================================================
+\section{Special cases: the four tells}
+
+\begin{tabularx}{\linewidth}{@{}l L L@{}}
+\toprule
+\thead{Situation} & \thead{The tell in the table} & \thead{What to write} \\
+\midrule
+\textbf{Infeasible} & stopped, but an \textbf{artificial is still basic with value $> 0$} & ``no plan satisfies every constraint; they contradict each other'' \\
+\textbf{Unbounded} & entering column has \textbf{no positive entry}, so no ratio test & ``profit can grow forever; the model is missing a limit'' \\
+\textbf{Alternative optima} & final $z$ row has \textbf{0 under a non-basic variable} & ``pivot it in to find a second best corner; every point between them is also optimal'' \\
+\textbf{Degenerate} & a basic variable $= 0$ (ratio tie) & ``still fine; simplex may pivot without $z$ changing'' \\
+\bottomrule
+\end{tabularx}
+
+\textbf{``Already optimal'' at the origin with an artificial basic} = the M's were never cleared (Exam 2 Q5).
+
+% =====================================================================
+\section{Sensitivity: shadow price, reduced cost, ranges}
+
+\subsection{Where to look (final table)}
+
+\begin{tabularx}{\linewidth}{@{}l l L@{}}
+\toprule
+\thead{Number under\ldots} & \thead{Name} & \thead{Meaning} \\
+\midrule
+a slack $s$ (\Le{} constraint) & \textbf{shadow price} & $z$ change per \textbf{$+1$} of that RHS \\
+an excess $e$ (\Ge{} constraint) & shadow price, \textbf{sign flipped} for a max & see the table below \\
+a non-basic decision variable $x_j$ & \textbf{reduced cost} & how much $z$ drops per unit if $x_j$ is forced in \\
+a \textbf{basic} slack (resource has spare) & 0 & shadow price \textbf{0}; more of it is worthless \\
+\bottomrule
+\end{tabularx}
+
+\subsection{Shadow price signs}
+
+\begin{tabularx}{\linewidth}{@{}l l c L@{}}
+\toprule
+\thead{Problem} & \thead{Constraint} & \thead{Look under} & \thead{RHS $+1$ does} \\
+\midrule
+max & \Le{} limit & $s$ & profit \textbf{rises} by the number \\
+max & \Ge{} requirement & $e$ & profit \textbf{falls} by the number \\
+min (solved as $\max z' = -z$) & \Ge{} requirement & $e$ & cost \textbf{rises} by the number \\
+min (solved as $\max z' = -z$) & \Le{} limit & $s$ & cost \textbf{falls} by the number \\
+any & non-binding & -- & \textbf{0} \\
+\bottomrule
+\end{tabularx}
+
+\reading{loosening a limit helps; tightening a requirement hurts. \textbf{Unsure? Re-solve with RHS $+1$: shadow price = new $z$ $-$ old $z$.}}
+
+\textbf{Units:} if $z$ is in \$100s, a shadow price of 1 means \textbf{\$100}. Always convert.
+
+\subsection{RHS range (where the shadow price stays valid)}
+
+Change constraint $i$'s RHS by $\Delta$. Use \textbf{its slack column} (for a \Ge, use \textbf{minus} its excess column):
+\begin{workline}
+$\text{new basic value} = (\text{current RHS value}) + \Delta \times (\text{entry in that column}) \;\geq\; 0 \qquad \text{for every basic variable}$
+\end{workline}
+Furniture, timber, $s_1$ column $(2, -2, -3)$:
+\begin{work}
+\begin{alignat*}{3}
+x_1 &= 20 + 2\Delta \geq 0 &\quad&\Rightarrow\quad& \Delta &\geq -10 \\
+s_2 &= 10 - 2\Delta \geq 0 &&\Rightarrow& \Delta &\leq 5 \\
+x_3 &= 10 - 3\Delta \geq 0 &&\Rightarrow& \Delta &\leq 10/3
+\end{alignat*}
+\[
+\Rightarrow\; -10 \leq \Delta \leq \tfrac{10}{3} \;\Rightarrow\; \mathbf{40 \leq \text{timber} \leq 53\tfrac13} \qquad \text{(convert $\Delta$ back to the RHS!)}
+\]
+\end{work}
+\begin{itemize}
+  \item \textbf{Inside the range:} new $z$ = old $z$ + $\Delta \times$ shadow price. Say ``inside the range'' first.
+  \item \textbf{Outside the range:} the formula is wrong. The basis changes, so \textbf{re-solve}.
+  \item \textbf{``Buy $k$ extra units at \$$P$ total?''} Check $k$ is inside the range; gain = $k \times$ shadow price; \textbf{accept if gain $> P$}.
+\end{itemize}
+
+\subsection{Reduced cost (a product not made)}
+
+\begin{workline}
+$\text{reduced cost} = (\text{its resources valued at shadow prices}) - (\text{its profit})$
+\end{workline}
+\begin{itemize}
+  \item Positive $\to$ losing money, don't make it. Its profit must rise \textbf{by the reduced cost} before it's worth making.
+  \item \textbf{New product?} Same formula. \textbf{Negative $\to$ make it} (it earns more than its resources are worth elsewhere). This says \emph{whether}, not \emph{how many}: re-solve for that.
+  \item Products you \textbf{do} make have reduced cost \textbf{0}.
+\end{itemize}
+
+\begin{tabularx}{\linewidth}{@{}l L l@{}}
+\toprule
+\thead{Change} & \thead{Plan ($x$ values)} & \thead{$z$} \\
+\midrule
+RHS (amount of a resource) & \textbf{moves} (same binding constraints, inside the range) & $+$ shadow price $\times\,\Delta$ \\
+profit of a product you make & \textbf{stays} (inside its range) & $+\,\Delta \times$ its amount \\
+profit of a product you don't make & stays until the rise passes the reduced cost & unchanged \\
+\bottomrule
+\end{tabularx}
+
+\subsection{Excel Solver report}
+
+\begin{tabularx}{\linewidth}{@{}l L@{}}
+\toprule
+\thead{Column} & \thead{Meaning} \\
+\midrule
+Final Value (variables) & the optimal plan \\
+Reduced Cost & loss per unit if forced in (Solver shows it \textbf{negative} for a max) \\
+Allowable Increase / Decrease (variables) & how far the profit coefficient can move with the \textbf{same plan} \\
+Shadow Price & $z$ change per $+1$ RHS \\
+Allowable Increase / Decrease (constraints) & the RHS \textbf{range} where the shadow price holds \\
+\bottomrule
+\end{tabularx}
+
+\subsection{Sentences to write}
+
+\begin{itemize}
+  \item \textbf{Binding:} ``Timber has shadow price \$100 per m$^3$: each extra m$^3$ adds \$100 of profit, valid between 40 and $53\frac13$ m$^3$.''
+  \item \textbf{Non-binding:} ``Labour has 10 days spare, so its shadow price is \$0; extra labour adds nothing.''
+  \item \textbf{\Ge{} requirement:} ``Each extra kg the contract requires lowers profit by \$1.''
+  \item \textbf{Reduced cost:} ``Tables have reduced cost \$300: forcing one in loses \$300, so a table's profit must rise from \$400 to at least \$700.''
+  \item \textbf{Which resource to buy:} the one with the \textbf{largest shadow price}, if it costs less than that.
+\end{itemize}
+
+% =====================================================================
+\section{Duality}
+
+\subsection{Writing the dual (max with \Le{} $\leftrightarrow$ min with \Ge)}
+
+\begin{tabularx}{\linewidth}{@{}l L@{}}
+\toprule
+\thead{Primal (max)} & \thead{Dual (min)} \\
+\midrule
+one constraint per resource & \textbf{one variable $y_i$ per constraint} (value of that resource) \\
+one variable per product & \textbf{one constraint per product} \\
+RHS amounts & dual objective coefficients: $\mathbf{\min w = \sum_i \text{RHS}_i\, y_i}$ \\
+profits & dual RHS \\
+a product's \textbf{column} (what it uses) & its dual constraint: \textbf{column $\cdot\, y \geq$ profit} \\
+\Le, $x_j \geq 0$ & \Ge, $y_i \geq 0$ \\
+(rare) \Ge{} row / $=$ row in a max & $y_i \leq 0$ / $y_i$ free \\
+\bottomrule
+\end{tabularx}
+
+\reading{\textbf{read DOWN the columns}, not across. Call the dual objective $w$. Write 0 coefficients explicitly.}
+
+\textbf{Meaning to write:} ``$y_i$ = the value of one unit of resource $i$, e.g.\ what a buyer would have to offer for it.''
+
+\subsection{The theorems}
+
+\begin{tabularx}{\linewidth}{@{}l l L@{}}
+\toprule
+\thead{Name} & \thead{Statement} & \thead{Use} \\
+\midrule
+\textbf{Weak duality} & any feasible $z \leq$ any feasible $w$ & a dual-feasible $y$ gives a \textbf{ceiling} on profit, without solving \\
+\textbf{Strong duality} & optimal $z^* = $ optimal $w^*$ & \textbf{certify optimal}: a feasible plan and a dual-feasible $y$ with $z = w$ are \textbf{both} optimal \\
+\textbf{Dual values = shadow prices} & $y^*$ = final $z$ row under the slacks & read $y^*$ straight off the tableau \\
+\bottomrule
+\end{tabularx}
+
+\textbf{Check a $y$ is dual-feasible:} plug it into every dual constraint ($\geq$ profit for each product) and $y \geq 0$. Then $w = \sum \text{RHS} \times y$ is an upper bound.
+
+\subsection{Complementary slackness}
+
+\begin{tabularx}{\linewidth}{@{}l l L@{}}
+\toprule
+\thead{If\ldots} & \thead{then\ldots} & \thead{why} \\
+\midrule
+a resource has spare (slack $> 0$) & $\mathbf{y_i = 0}$ & more of something you already have spare is worthless \\
+$y_i > 0$ & that constraint is \textbf{binding} & a resource only has value if you're short of it \\
+a product is made ($x_j > 0$) & its dual constraint is \textbf{tight} ($=$) & made products break even at the shadow prices \\
+a dual constraint has a \textbf{gap} & $\mathbf{x_j = 0}$, and gap = \textbf{reduced cost} & it loses the gap on every unit, so don't make it \\
+\bottomrule
+\end{tabularx}
+
+Rule in one line: \textbf{(slack) $\times\, y = 0$} \; and \; \textbf{(amount made) $\times$ (gap) $= 0$}.
+
+\textbf{Finding $y^*$ from $x^*$ (no tableau):} furniture $x^* = (20, 0, 10)$, labour has spare.
+\begin{work}
+\begin{alignat*}{2}
+&\text{labour spare} &\quad&\Rightarrow\; y_2 = 0 \\
+&\text{chairs made (tight)} &&\Rightarrow\; 2y_1 + 4y_2 + 3y_3 = 5 \;\Rightarrow\; 2y_1 + 3y_3 = 5 \\
+&\text{shelves made (tight)} &&\Rightarrow\; y_1 + 2y_2 + 2y_3 = 3 \;\Rightarrow\; y_1 + 2y_3 = 3 \\
+&\text{solve} &&\Rightarrow\; y_3 = 1,\; y_1 = 1 \;\Rightarrow\; \mathbf{y^* = (1, 0, 1)},\quad w = 50 + 80 = 130 = z^* \;\checkmark
+\end{alignat*}
+\end{work}
+
+\textbf{Why solve the dual?} 400 products, 3 resources: primal = 400 variables, dual = \textbf{3 variables}. Much smaller, same optimal value, and it gives the shadow prices.
+
+% =====================================================================
+\section{Transportation}
+
+\begin{enumerate}
+  \item \textbf{Balance:} total supply vs total demand.
+  \begin{itemize}
+    \item supply $>$ demand $\to$ \textbf{dummy destination}, cost 0 (``left at the source'')
+    \item demand $>$ supply $\to$ \textbf{dummy source}, cost 0 (``demand not met'')
+  \end{itemize}
+  \item \textbf{Northwest corner:} start top-left, fill as much as possible, move right if the column is satisfied, down if the row is used up. Write the table and the \textbf{cost}.
+  \item \textbf{Check cells $= m + n - 1$} (count the dummy). Too few (degenerate)? Put a 0 in a cell next to the corner where a row and column finished together.
+  \item \textbf{$u$, $v$:} set $u_1 = 0$; on \textbf{used} cells $\mathbf{u_i + v_j = c_{ij}}$.
+  \item \textbf{Reduced costs} on \textbf{empty} cells: $\mathbf{\bar c_{ij} = c_{ij} - u_i - v_j}$.
+  \begin{itemize}
+    \item all $\bar c \geq 0$ $\to$ \textbf{optimal}; a $\bar c = 0$ $\to$ \textbf{alternative optimum}
+    \item else the \textbf{most negative} enters
+  \end{itemize}
+  \item \textbf{Loop:} from the entering cell, turn only at \textbf{used} cells, signs $+\;-\;+\;-$.
+  \item \textbf{$\theta$ = smallest amount on a $-$ cell.} Add $\theta$ to $+$, subtract from $-$. The cell hitting 0 leaves.
+  \item \textbf{New cost = old cost $+\;\theta \times \bar c$.} Recheck the arithmetic by summing the new plan.
+\end{enumerate}
+
+Draw the grid like this so you never flip back:
+
+\begin{center}
+\begin{tabular}{@{}l c c c@{}}
+\toprule
+ & S1 ($v=7$) & S2 ($v=8$) & Dummy ($v=5$) \\
+\midrule
+Q1 ($u=0$) & \$7 $\to$ 40 & \$4 \;[$-4$] & \$0 \;[$-5$] \\
+Q2 ($u=-2$) & \$5 $\to$ 10 & \$6 $\to$ 40 & \$0 \;[$-3$] \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\reading{``\$cost $\to$ amount'' for used cells, [$\bar c$] for empty ones, $u$ and $v$ in the headers.}
+
+\textbf{Why the loop works:} each $+$ in a row/column is cancelled by a $-$ in the same row/column, so all totals stay right; the cost change per unit = the $\bar c$.
+
+% =====================================================================
+\section{Game theory}
+
+\begin{enumerate}
+  \item \textbf{Dominance first} (repeat until nothing changes):
+  \begin{itemize}
+    \item \textbf{Rows} (row player wants \textbf{big}): row A $\geq$ row B in every column $\to$ delete B.
+    \item \textbf{Columns} (column player wants \textbf{small}): column A $\leq$ column B in every row $\to$ delete \textbf{B}.
+  \end{itemize}
+  \item \textbf{Saddle point test:}
+  \begin{itemize}
+    \item \textbf{maximin} = biggest of the \textbf{row minimums}
+    \item \textbf{minimax} = smallest of the \textbf{column maximums}
+    \item equal $\to$ saddle point: the entry that is the \textbf{smallest in its row AND largest in its column}. Both play pure strategies; value = that number.
+    \item not equal $\to$ mixed strategy.
+  \end{itemize}
+  \item \textbf{Mixed, 2 rows:} $x_1 = P(\text{R1})$, $x_2 = 1 - x_1$. Set the payoffs against the two remaining columns \textbf{equal}, solve, then $v$ = either side.
+  \item \textbf{Write the LP} (needed when asked, or for 3+ choices):
+\end{enumerate}
+\begin{work}
+\begin{alignat*}{2}
+\max\ & v \\
+\text{s.t.}\ & (\text{column 1 numbers}) \cdot x \geq v &\qquad& \leftarrow \text{one constraint per OPPONENT column} \\
+& (\text{column 2 numbers}) \cdot x \geq v \\
+& x_1 + \dots + x_m = 1,\quad x \geq 0 && (v \text{ any sign})
+\end{alignat*}
+\end{work}
+\begin{itemize}
+  \item Column player: \textbf{min $w$}, one constraint per \textbf{row}, row $\cdot\, y \leq w$. It's the \textbf{dual} of the row player's LP, so $v = w$ = value of the game.
+  \item \textbf{Check:} the deleted column gives the row player $\geq v$ at your $x$.
+  \item Answer with probabilities \textbf{and} the value \textbf{in words}: ``R plays R1 4/9 of the time and R2 5/9; R gains 2/3 of a point per game on average.''
+\end{itemize}
+
+% =====================================================================
+\section{Networks}
+
+\subsection{Shortest path (label-setting / Dijkstra)}
+
+\begin{enumerate}
+  \item Box A $= 0$. Label its neighbours (distance, via).
+  \item Box the \textbf{unboxed node with the smallest total distance}.
+  \item From it, update each neighbour if (its distance + edge) is \textbf{smaller}. Mark rejected ones with $\times$.
+  \item Repeat until the destination is boxed. Trace back through ``via''.
+\end{enumerate}
+
+\begin{center}
+\begin{tabular}{@{}c l l@{}}
+\toprule
+\thead{Round} & \thead{Box} & \thead{Updates} \\
+\midrule
+1 & A $= 0$ & B 4 (A), C 3 (A) \\
+2 & C $= 3$ & B 5 $\times$, D 11 (C), E 9 (C) \\
+\ldots & \ldots & \ldots \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\reading{one row per boxed node, so the marker can follow. Give the \textbf{route and its length}.}
+
+\subsection{Minimum spanning tree (Prim)}
+
+Start anywhere; repeatedly add the \textbf{cheapest edge reaching a new node}; never close a loop. $n$ nodes $\to$ \textbf{$n-1$ edges}. Give the edges with their lengths and the total.
+
+\begin{tabularx}{\linewidth}{@{}l L L@{}}
+\toprule
+ & \thead{Shortest path} & \thead{MST} \\
+\midrule
+Question & one route A $\to$ B & connect \textbf{all} nodes \\
+Lock in each step & closest \textbf{node} (total distance) & cheapest \textbf{edge} to a new node \\
+\bottomrule
+\end{tabularx}
+
+\subsection{The LP behind shortest path}
+
+$x_{ij} = 1$ if edge $i \to j$ is used. $\min \sum \text{length} \times x_{ij}$, s.t.\ (out $-$ in) $= +1$ at the start, $-1$ at the end, $0$ everywhere else (\textbf{conservation of flow}), $x \geq 0$.
+
+% =====================================================================
+\section{Short-answer bank}
+
+\begin{tabularx}{\linewidth}{@{}>{\raggedright\arraybackslash}p{0.3\linewidth} L@{}}
+\toprule
+\thead{Question} & \thead{Answer} \\
+\midrule
+Why is the optimum at a corner? & The objective is \textbf{linear} (a flat plane, no interior peak). From any interior point you can move uphill until a constraint stops you, then along the edge until another stops you: a corner (or a whole edge if parallel). \\
+Shadow price 0 means? & The constraint is \textbf{non-binding}: there's spare at the optimum, so one more unit can't help (complementary slackness). \\
+0 in the $z$ row under a non-basic \textbf{decision} variable? & \textbf{Alternative optima.} Pivot it in for a second optimal corner; report both and every point between. \\
+Why solve the dual? & Fewer variables (the dual of a $400 \times 3$ problem has 3 variables); same optimal value (strong duality); gives shadow prices. \\
+Why Big M / artificials? & \Ge{} and $=$ rows fail at the origin, so simplex has no starting corner. Artificials give a fake start; the $-M$ penalty forces them to 0. \\
+Why must the M's be cleared? & Basic variables must have 0 in the $z$ row; otherwise the $z$ row is wrong and can falsely look optimal. \\
+Why can a min have an optimum on an unbounded region? & With positive costs and $x \geq 0$, cost only grows as you move further out, so the minimum is reached at a corner of the region. \\
+Why does a shadow price have a range? & Past the range a different constraint becomes binding, the corner changes, so the rate changes. \\
+Why does the transportation starting plan need $m + n - 1$ cells? & One of the $m + n$ supply/demand equations is redundant (totals balance), so a basic solution has $m + n - 1$ basic cells. \\
+What is a reduced cost, in words? & How much the objective worsens per unit if a product not being made is forced into the plan; equivalently, how much its profit must rise to be worth making. \\
+\bottomrule
+\end{tabularx}
+
+% =====================================================================
+\section{Your personal traps}
+
+From marking your Practice Exam 2 (see \texttt{work/ans2\_fixed.md}). \textbf{Check these before handing in.}
+
+\begin{tabularx}{\linewidth}{@{}>{\raggedright\arraybackslash}p{0.38\linewidth} L@{}}
+\toprule
+\thead{\textcolor{trap}{Trap}} & \thead{Fix} \\
+\midrule
+$z$ in \textbf{\$100s}, wrote ``\$1'' & multiply: \textbf{1 $\to$ \$100}, 130 $\to$ \$13{,}000 \\
+binding / non-binding backwards & \textbf{basic slack $> 0$ $\to$ spare}; \textbf{non-basic slack $= 0$ $\to$ fully used} \\
+clearing M with $+$ & $\mathbf{R_z - M\cdot(\text{artificial row})}$ \\
+forgot $-M$ for one artificial & one \textbf{$-Ma_i$ per artificial} \\
+only the final tableau & every tableau + entering/leaving + row ops \\
+left out the ``interpret / for the owner'' part & finish every part with a sentence in words \\
+``strong duality'' with no numbers & read $y^*$, check feasibility, show $w = z$ \\
+checked $x$ when asked about $y$ & $y$ is the \textbf{dual}: plug into \textbf{dual} constraints \\
+saddle point from a matching number & must be \textbf{row min AND column max} \\
+optimal set included infeasible points & limit the edge: e.g.\ $3 \leq x_1 \leq 6$ \\
+$\Delta$ range left as $\Delta$ & convert to the RHS range ($40 \leq \text{timber} \leq 53\frac13$) and say ``inside the range'' \\
+transcribed a coefficient wrong & re-check every number against the question's table \\
+\bottomrule
+\end{tabularx}
+
+\end{document}
